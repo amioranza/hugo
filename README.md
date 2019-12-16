@@ -1,3 +1,33 @@
+# How to create docker images using Github Actions
+
+## First
+
+To ensure you can do anything on this repo without hurting anyone, plese create a fork.
+
+All Github Actions are disable by default when forking a repository.
+
+Go to Actions and enable the actions clicking in the appropriate green button.
+
+## Second
+
+When you enable actions every push to master will build a new package, it means, new docker image in your github packges for this repo.
+
+## Third
+
+To run packages from a github repo you need to login to docker.pkg.github.com:
+
+```
+docker login -u <githublogin> -p <githubpersonaltoken> docker.pkg.github.com
+```
+
+If you have successful login you can run the docker image or pull it locally:
+
+```
+docker run -it --rm --name hugo docker.pkg.github.com/amioranza/hugo/hugo:v5b927d1043a619bcaa7345ed333ddf162d172fbc
+```
+
+# Original HUGO README.md content
+
 <img src="https://raw.githubusercontent.com/gohugoio/gohugoioTheme/master/static/images/hugo-logo-wide.svg?sanitize=true" alt="Hugo" width="565">
 
 A Fast and Flexible Static Site Generator built with love by [bep](https://github.com/bep), [spf13](http://spf13.com/) and [friends](https://github.com/gohugoio/hugo/graphs/contributors) in [Go][].
