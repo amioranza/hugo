@@ -8,6 +8,7 @@ on:
 env:
   CI: true
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  IMAGE_NAME: "docker.pkg.github.com/${LOWERCASE_REPOSITORY}/hugo:v${GITHUB_SHA}"
 
 jobs:
   prepare-build-test:
@@ -30,17 +31,18 @@ jobs:
     - name: build
       run: |
         export LOWERCASE_REPOSITORY=$(echo "${GITHUB_REPOSITORY}" | tr "[:upper:]" "[:lower:]")
-        export IMAGE_NAME="docker.pkg.github.com/${LOWERCASE_REPOSITORY}/todomvc:v${GITHUB_SHA}"
+        export ${IMAGE_NAME}
         docker build -t $IMAGE_NAME .
 
     - name: publish
       run: |
         export OWNER="${GITHUB_REPOSITORY%/*}"
         export LOWERCASE_REPOSITORY=$(echo "${GITHUB_REPOSITORY}" | tr "[:upper:]" "[:lower:]")
-        export IMAGE_NAME="docker.pkg.github.com/${LOWERCASE_REPOSITORY}/todomvc:v${GITHUB_SHA}"
+        export ${IMAGE_NAME}
         echo "owner: ${OWNER}"
         echo "token: ${GITHUB_TOKEN}"
         echo "repo: ${GITHUB_REPOSITORY}"
         echo "version: ${VERSION}"
+        echo ${IMAGE_NAME}
         docker login -u ${OWNER} -p ${GITHUB_TOKEN} docker.pkg.github.com
         docker push $IMAGE_NAME
